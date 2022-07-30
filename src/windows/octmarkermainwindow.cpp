@@ -256,6 +256,12 @@ void OCTMarkerMainWindow::setupMenu()
 	connect(saveOctScanAction, &QAction::triggered, this, &OCTMarkerMainWindow::showSaveOctScanDialog);
 	fileMenu->addAction(saveOctScanAction);
 
+	QAction* saveOctSerieAction = new QAction(this);
+	saveOctSerieAction->setText(tr("save oct serie"));
+	saveOctSerieAction->setIcon(QIcon::fromTheme("document-save-as", QIcon(":/icons/tango/actions/document-save.svgz")));
+	connect(saveOctSerieAction, &QAction::triggered, this, &OCTMarkerMainWindow::showSaveOctSerieDialog);
+	fileMenu->addAction(saveOctSerieAction);
+
 
 	fileMenu->addSeparator();
 
@@ -878,6 +884,21 @@ void OCTMarkerMainWindow::showSaveOctScanDialog()
 	{
 		std::string errorStr;
 		std::function<void ()> saveFun = [&]() { OctDataManager::getInstance().saveOctScan(filename); };
+		bool saveResult = catchSaveError(saveFun, errorStr);
+		showErrorDialog(!saveResult, errorStr);
+
+	}
+}
+
+void OCTMarkerMainWindow::showSaveOctSerieDialog()
+{
+	const QString& loadedFilename = OctDataManager::getInstance().getLoadedFilename();
+	QFileInfo fileinfo(loadedFilename);
+	QString filename = QFileDialog::getSaveFileName(this, tr("Choose a filename to save oct scan"), fileinfo.baseName()+".xoct", "*.xoct;;*.octbin");
+	if(!filename.isEmpty())
+	{
+		std::string errorStr;
+		std::function<void ()> saveFun = [&]() { OctDataManager::getInstance().saveOctSerie(filename); };
 		bool saveResult = catchSaveError(saveFun, errorStr);
 		showErrorDialog(!saveResult, errorStr);
 

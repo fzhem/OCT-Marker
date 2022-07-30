@@ -120,6 +120,7 @@ public slots:
 	virtual void saveMatlabWriteBinCode();
 
 	virtual void showSaveOctScanDialog();
+	virtual void showSaveOctSerieDialog();
 	virtual void screenshot();
 };
 

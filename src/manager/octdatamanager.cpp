@@ -347,6 +347,26 @@ void OctDataManager::saveOctScan(QString filename)
 	}
 }
 
+void OctDataManager::saveOctSerie(QString filename)
+{
+	if(octData && actPatient && actStudy && actSeries)
+	{
+		OctData::FileWriteOptions fwo;
+		fwo.octBinFlat = ProgramOptions::saveOctBinFlat();
+		
+		OctData::OCT oct;
+		OctData::Patient& pat = oct.getInsertId(actPatient->getInternalId());
+		// pat.setPatientData(actPatient->getPatientData());
+		
+		OctData::Study& study = pat.getInsertId(actStudy->getInternalId());
+		
+		// study.copySeries(*actStudy, actSeries->getInternalId());
+		
+
+		OctData::OctFileRead::writeFile(filename.toStdString(), oct, fwo);
+	}
+}
+
 const SloBScanDistanceMap* OctDataManager::getSeriesSLODistanceMap() const
 {
 	if(!seriesSLODistanceMap)

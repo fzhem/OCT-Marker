@@ -92,6 +92,7 @@ public slots:
 	void triggerSaveMarkersDefault();
 
 	void saveOctScan(QString filename);
+	void saveOctSerie(QString filename);
 
 	void abortLoadingOctFile();
 
