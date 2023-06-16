@@ -183,7 +183,7 @@ void WGIntervalMarker::addMarkerCollection(const IntervalMarker& markers)
 	}
 	layout->addStretch();
 
-    connect(signalMapper, static_cast<void (QSignalMapper::*)(int)>(&QSignalMapper::mapped), parent, &BScanIntervalMarker::chooseMarkerID);
+    connect(signalMapper, &QSignalMapper::mappedInt, parent, &BScanIntervalMarker::chooseMarkerID);
 
 	QWidget* widget = new QWidget(this);
 	widget->setLayout(layout);

@@ -61,5 +61,5 @@ void FilterGammaContrastBrightness::calcLut()
 		lut[i] = cv::saturate_cast<uchar>((gammaValue*contrast + brightness)*255.0);
 	}
 
-	parameterChanged();
+	emit parameterChanged();
 }

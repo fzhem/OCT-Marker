@@ -211,7 +211,7 @@ bool ImportIntervalMarker::exportBin(BScanIntervalMarker* markerManager, const s
 		for(std::size_t bscan = 0; bscan < numBscans; ++bscan)
 		{
 			const BScanIntervalMarker::MarkerMap& markerMap = markerManager->getMarkers(markerCollectionInternalName, bscan);
-			for(const BScanIntervalMarker::MarkerMap::interval_mapping_type pair : markerMap)
+			for(const auto& pair : markerMap)
 			{
 
 				// std::cout << "paintEvent(QPaintEvent* event) " << pair.second << " - " << pair.first << std::endl;

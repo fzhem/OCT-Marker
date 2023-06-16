@@ -116,7 +116,7 @@ void SloIntervallMap::fillCache(const std::vector<BScanIntervalMarker::MarkerMap
 		std::vector<Color>& colorLine = colorCache[i];
 		colorLine.resize(bscanWidth);
 
-		for(const BScanIntervalMarker::MarkerMap::interval_mapping_type pair : markerMap)
+		for(const auto& pair : markerMap)
 		{
 			IntervalMarker::Marker marker = pair.second;
 			if(marker.isDefined())

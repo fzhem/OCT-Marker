@@ -154,7 +154,7 @@ WGSegmentation::WGSegmentation(BScanSegmentation* parent)
 	buttonLocalPaintCircle->setChecked(localOpPaint->getPaintData().paintMethod == BScanSegmentationMarker::PaintData::PaintMethod::Circle);
 	buttonLocalPaintRec   ->setChecked(localOpPaint->getPaintData().paintMethod == BScanSegmentationMarker::PaintData::PaintMethod::Rect  );
 	buttonLocalPaintPen   ->setChecked(localOpPaint->getPaintData().paintMethod == BScanSegmentationMarker::PaintData::PaintMethod::Pen  );
-	connect(localPaintMethodBG, static_cast<void(QButtonGroup::*)(int)>(&QButtonGroup::buttonClicked), this, &WGSegmentation::activateLocalPaint);
+	connect(localPaintMethodBG, &QButtonGroup::idClicked, this, &WGSegmentation::activateLocalPaint);
 
 	QButtonGroup* localPaintAreaBG = new QButtonGroup(this);
 	localPaintAreaBG->addButton(buttonLocalPaintArea0   );
@@ -163,7 +163,7 @@ WGSegmentation::WGSegmentation(BScanSegmentation* parent)
 	buttonLocalPaintArea0   ->setChecked(BScanSegLocalOp::getColorData().paintColor == BScanSegmentationMarker::ColorData::PaintColor::Area0);
 	buttonLocalPaintAreaAuto->setChecked(BScanSegLocalOp::getColorData().paintColor == BScanSegmentationMarker::ColorData::PaintColor::Auto );
 	buttonLocalPaintArea1   ->setChecked(BScanSegLocalOp::getColorData().paintColor == BScanSegmentationMarker::ColorData::PaintColor::Area1);
-	connect(localPaintAreaBG, static_cast<void(QButtonGroup::*)(int)>(&QButtonGroup::buttonClicked), this, &WGSegmentation::setPaintColor);
+	connect(localPaintAreaBG, &QButtonGroup::idClicked, this, &WGSegmentation::setPaintColor);
 
 	QButtonGroup* localOperationBG = new QButtonGroup(this);
 	localOperationBG->addButton(buttonLocalOperationErode    );
@@ -174,14 +174,14 @@ WGSegmentation::WGSegmentation(BScanSegmentation* parent)
 	buttonLocalOperationDilate   ->setChecked(localOpOperation->getOperationData() == BScanSegmentationMarker::Operation::Dilate   );
 	buttonLocalOperationOpenClose->setChecked(localOpOperation->getOperationData() == BScanSegmentationMarker::Operation::OpenClose);
 	buttonLocalOperationMedian   ->setChecked(localOpOperation->getOperationData() == BScanSegmentationMarker::Operation::Median   );
-	connect(localOperationBG               , static_cast<void(QButtonGroup::*)(int)>(&QButtonGroup::buttonClicked), this, &WGSegmentation::activateLocalOperation);
+	connect(localOperationBG               , &QButtonGroup::idClicked, this, &WGSegmentation::activateLocalOperation);
 
 
 	QButtonGroup* localThresholdBG = new QButtonGroup(this);
 	localThresholdBG->addButton(radioLocalThresholdAbsolut );
 	localThresholdBG->addButton(radioLocalThresholdRelative);
 	setLocalThresholdValues();
-	connect(localThresholdBG               , static_cast<void(QButtonGroup::*)(int)>(&QButtonGroup::buttonClicked), this, &WGSegmentation::activateLocalThresh);
+	connect(localThresholdBG               , &QButtonGroup::idClicked, this, &WGSegmentation::activateLocalThresh);
 
 
 
@@ -734,5 +734,5 @@ void WGSegmentationThreshold::relativeSpinBoxChanged()
 
 void WGSegmentationThreshold::widgetActivated()
 {
-	emit(blockAction());
+	emit blockAction();
 }

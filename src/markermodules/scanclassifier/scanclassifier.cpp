@@ -55,7 +55,7 @@ void ScanClassifier::loadBScansState(const boost::property_tree::ptree& markerTr
 	if(!bscansNode)
 		return;
 
-	for(const std::pair<const std::string, const bpt::ptree>& bscanPair : *bscansNode)
+	for(const auto& bscanPair : *bscansNode)
 	{
 		if(bscanPair.first != "BScan")
 			continue;

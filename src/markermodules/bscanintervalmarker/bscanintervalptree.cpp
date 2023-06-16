@@ -39,7 +39,7 @@ namespace
 			return true; // not a true error
 
 
-		for(const std::pair<const std::string, const bpt::ptree>& bscanPair : *bscansNode)
+		for(const auto& bscanPair : *bscansNode)
 		{
 			if(bscanPair.first != "BScan")
 				continue;
@@ -52,7 +52,7 @@ namespace
 			if(bscanId == -1)
 				continue;
 
-			for(const std::pair<const std::string, const bpt::ptree>& intervallNodePair : bscanNode)
+			for(const auto& intervallNodePair : bscanNode)
 			{
 				if(intervallNodePair.first != "Intervall")
 					continue;
@@ -91,7 +91,7 @@ namespace
 			const BScanIntervalMarker::MarkerMap& markerMap = markerManager->getMarkers(markerCollectionInternalName, bscan);
 			bool bscanEmpty = true;
 
-			for(const BScanIntervalMarker::MarkerMap::interval_mapping_type pair : markerMap)
+			for(const auto& pair : markerMap)
 			{
 				if(pair.second.isDefined())
 				{
@@ -106,7 +106,7 @@ namespace
 			bpt::ptree& bscanNode = qualityTree.add(nodeName, "");
 			bscanNode.add("ID", boost::lexical_cast<std::string>(bscan));
 
-			for(const BScanIntervalMarker::MarkerMap::interval_mapping_type pair : markerMap)
+			for(const auto& pair : markerMap)
 			{
 
 				// std::cout << "paintEvent(QPaintEvent* event) " << pair.second << " - " << pair.first << std::endl;

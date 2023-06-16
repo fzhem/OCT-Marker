@@ -48,6 +48,6 @@ void WidgetObjectMarker::addObjectStatusChangedSlot(bool v)
 
 void WidgetObjectMarker::addObjectStatusChangedSlotPrivte(bool v)
 {
-	addObjectStatusChangedSignal(v);
+	emit addObjectStatusChangedSignal(v);
 }
 

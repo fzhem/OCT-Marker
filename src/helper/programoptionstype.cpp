@@ -87,7 +87,7 @@ void OptionColor::showColorDialog()
 	}
 
 	if(colorChangd)
-		emit(valueChanged(value));
+		emit valueChanged(value);
 }
 
 void OptionColor::setDescriptions(const QString& shortDesc, const QString& longDesc)

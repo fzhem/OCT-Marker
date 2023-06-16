@@ -102,7 +102,7 @@ bool ObjectsMarkerPTree::parsePTree(const boost::property_tree::ptree& ptree, Ob
 	std::size_t numBscans = itemsList.size();
 
 
-	for(const std::pair<const std::string, const bpt::ptree>& bscanPair : ptree)
+	for(const auto& bscanPair : ptree)
 	{
 		if(bscanPair.first != "BScan")
 			continue;

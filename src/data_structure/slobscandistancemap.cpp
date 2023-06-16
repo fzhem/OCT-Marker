@@ -183,7 +183,7 @@ namespace
 			double lastDistance1 = std::numeric_limits<double>::infinity();
 			double lastDistance2 = std::numeric_limits<double>::infinity();
 			enum class State { Start, Init, TestPost, Pos, Neg, End };
-			State state;
+			State state = State::Start;
 
 		public:
 			FindMinAScan(const OctData::CoordSLOpx& pos, std::size_t startAScan) : pos(pos), minAscan(startAScan) {}

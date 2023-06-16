@@ -261,9 +261,9 @@ void BScanLayerSegmentation::setActEditLinetype(OctData::Segmentationlines::Segm
 
 	updateEditLine();
 	if(actEditMethod)
-		emit(segLineIdChanged(static_cast<std::size_t>(type)));
+		emit segLineIdChanged(static_cast<std::size_t>(type));
 
-	requestFullUpdate();
+	emit requestFullUpdate();
 }
 
 
@@ -277,7 +277,7 @@ void BScanLayerSegmentation::highlightLinetype(OctData::Segmentationlines::Segme
 	{
 		highlightLine = true;
 		acthighlightLineType = type;
-		requestFullUpdate();
+		emit requestFullUpdate();
 	}
 }
 
@@ -286,7 +286,7 @@ void BScanLayerSegmentation::highlightNoLinetype()
 	if(highlightLine)
 	{
 		highlightLine = false;
-		requestFullUpdate();
+		emit requestFullUpdate();
 	}
 }
 
@@ -347,7 +347,7 @@ void BScanLayerSegmentation::modifiedSegPart(std::size_t bscan, OctData::Segment
 		{
 			if(actEditType == segLine)
 				updateEditLine();
-			requestFullUpdate();
+			emit requestFullUpdate();
 		}
 	}
 }
@@ -438,7 +438,7 @@ void BScanLayerSegmentation::generateThicknessmap()
 			ThicknessMap tm;
 			tm.createMap(*distMap, lines, thicknessmapConfig.upperLayer, thicknessmapConfig.lowerLayer, factor, *thicknessmapConfig.colormap);
 			*thicknesMapImage = tm.getThicknessMap();
-			requestSloOverlayUpdate();
+			emit requestSloOverlayUpdate();
 
 // 			std::cout << "Creating thickness map took " << timer.elapsed() << " milliseconds" << std::endl;
 		}
@@ -478,7 +478,7 @@ void BScanLayerSegmentation::copySegLinesFromOctData(const std::size_t bScanNr)
 	{
 		updateEditLine();
 
-		requestFullUpdate();
+		emit requestFullUpdate();
 	}
 }
 
@@ -502,9 +502,9 @@ void BScanLayerSegmentation::setSegMethod(BScanLayerSegmentation::SegMethod meth
 
 	updateEditLine();
 
-	emit(segMethodChanged());
+	emit segMethodChanged();
 
-	requestFullUpdate();
+	emit requestFullUpdate();
 }
 
 
@@ -592,8 +592,8 @@ void BScanLayerSegmentation::setSegmentationLinesVisible(bool visible)
 	if(visible != showSegmentationlines)
 	{
 		showSegmentationlines = visible;
-		emit(segLineVisibleChanged(visible));
-		requestFullUpdate();
+		emit segLineVisibleChanged(visible);
+		emit requestFullUpdate();
 	}
 }
 
@@ -602,7 +602,7 @@ void BScanLayerSegmentation::setThicknessmapVisible(bool visible)
 	if(visible != showThicknessmap)
 	{
 		showThicknessmap = visible;
-		requestSloOverlayUpdate();
+		emit requestSloOverlayUpdate();
 	}
 }
 

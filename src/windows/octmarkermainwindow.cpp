@@ -546,7 +546,7 @@ void OCTMarkerMainWindow::generateMarkerActions()
 		markerActions.push_back(markerAction);
 		++id;
 	}
-	connect(signalMapperMarker, static_cast<void(QSignalMapper::*)(int)>(&QSignalMapper::mapped), &markerManager, &OctMarkerManager::setBscanMarker);
+	connect(signalMapperMarker, &QSignalMapper::mappedInt, &markerManager, &OctMarkerManager::setBscanMarker);
 }
 
 

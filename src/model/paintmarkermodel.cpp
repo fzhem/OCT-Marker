@@ -85,7 +85,7 @@ bool PaintMarkerModel::setData(const QModelIndex& index, const QVariant& value, 
 			PaintMarkerItem& item = markers.at(row);
 			item.setShow(value.toBool());
 
-			emit(viewChanged());
+			emit viewChanged();
 			return true;
 		}
 	}
@@ -95,7 +95,7 @@ bool PaintMarkerModel::setData(const QModelIndex& index, const QVariant& value, 
 Qt::ItemFlags PaintMarkerModel::flags(const QModelIndex& index) const
 {
 	if(!index.isValid())
-		return 0;
+		return {};
 
 	if(index.column() == 1)
 		return Qt::ItemIsEnabled | Qt::ItemIsUserCheckable;

@@ -299,7 +299,7 @@ void BScanMarkerWidget::paintConture(QPainter& painter, const std::vector<Contur
 		else
 			lastPoint = segment.points[0];
 
-		for(Point2D p : segment.points)
+		for(const Point2D& p : segment.points)
 		{
 			painter.drawLine(static_cast<int>((p        .getX()+0.5)*scaleFactorX)
 			               , static_cast<int>((p        .getY()+0.5)*scaleFactorY)
@@ -374,8 +374,8 @@ void BScanMarkerWidget::leaveEvent(QEvent* event)
 {
 	QWidget::leaveEvent(event);
 
-	mouseLeaveImage();
-	mousePosOnBScan(-1);
+	emit mouseLeaveImage();
+	emit mousePosOnBScan(-1);
 
 	BscanMarkerBase* actMarker = markerManger.getActBscanMarker();
 	if(actMarker)
@@ -419,11 +419,11 @@ void BScanMarkerWidget::wheelEvent(QWheelEvent* wheelE)
 	if(!wheelE->isAccepted())
 	{
 		if(deltaWheel < 0)
-			emit(bscanChangeInkrement(-1));
+			emit bscanChangeInkrement(-1);
 		else
-			emit(bscanChangeInkrement(+1));
+			emit bscanChangeInkrement(+1);
 
-		mousePosOnBScan(static_cast<double>(wheelE->x())/scaledImageWidth());
+		emit mousePosOnBScan(static_cast<double>(wheelE->x())/scaledImageWidth());
 	}
 
 	wheelE->accept();
@@ -448,8 +448,8 @@ void BScanMarkerWidget::mouseMoveEvent(QMouseEvent* event)
 
 	int xImg, yImg;
 	transformCoordWidget2Img(event->x(), event->y(), xImg, yImg);
-	mousePosInImage(xImg, yImg);
-	mousePosOnBScan(static_cast<double>(event->x())/scaledImageWidth());
+	emit mousePosInImage(xImg, yImg);
+	emit mousePosOnBScan(static_cast<double>(event->x())/scaledImageWidth());
 
 // 	if(checkControlUsed(event))
 // 		return;
@@ -527,11 +527,11 @@ void BScanMarkerWidget::keyPressEvent(QKeyEvent* e)
 	switch(e->key())
 	{
 		case Qt::Key_Left:
-			emit(bscanChangeInkrement(-1));
+			emit bscanChangeInkrement(-1);
 			e->accept();
 			break;
 		case Qt::Key_Right:
-			emit(bscanChangeInkrement( 1));
+			emit bscanChangeInkrement( 1);
 			e->accept();
 			break;
 		default:

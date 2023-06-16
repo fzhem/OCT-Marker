@@ -281,7 +281,7 @@ void CVImageWidget::cvImage2qtImage()
 	}
 
 
-	sizeChanged();
+	emit sizeChanged();
 	update();
 }
 
@@ -351,13 +351,13 @@ void CVImageWidget::wheelEvent(QWheelEvent* wheelE)
 	const int deltaWheel = wheelE->angleDelta().y();
 	if(wheelE->modifiers() == Qt::ControlModifier)
 	{
-		QPoint pos = mapToParent(wheelE->pos());
+		QPointF pos = wheelE->position();
+		QPoint  parentPos = mapToParent(wheelE->position().toPoint());
+		int x = pos.x();
+		int y = pos.y();
 
-		int x = wheelE->x();
-		int y = wheelE->y();
-
-		int px = pos.x();
-		int py = pos.y();
+		int px = parentPos.x();
+		int py = parentPos.y();
 
 		double oldScaleFactor = getScaleFactor();
 		double changeScaleFactor;
@@ -378,7 +378,7 @@ void CVImageWidget::wheelEvent(QWheelEvent* wheelE)
 			double percentChanged = newScaleFactor/oldScaleFactor;
 			int dx = static_cast<int>(x*percentChanged) - (px);
 			int dy = static_cast<int>(y*percentChanged) - (py);
-			needScrollTo(dx, dy);
+			emit needScrollTo(dx, dy);
 		}
 
 		wheelE->accept();

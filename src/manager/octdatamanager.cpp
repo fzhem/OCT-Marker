@@ -75,7 +75,7 @@ void OctDataManager::triggerSaveMarkersDefault()
 {
 	if(!actFilename.isEmpty())
 	{
-		saveMarkerState(actSeries);
+		emit saveMarkerState(actSeries);
 		markerIO->saveDefaultMarker(actFilename.toStdString());
 		OctMarkerManager::getInstance().resetChangedSinceLastSaveState();
 	}
@@ -162,7 +162,7 @@ void OctDataManager::openFile(const QString& filename)
 			return;
 	}
 
-	loadFileSignal(true);
+	emit loadFileSignal(true);
 	try
 	{
 		saveMarkersDefault();
@@ -174,7 +174,7 @@ void OctDataManager::openFile(const QString& filename)
 	}
 	catch(...)
 	{
-		loadFileSignal(false);
+		emit loadFileSignal(false);
 		throw;
 	}
 }
@@ -182,7 +182,7 @@ void OctDataManager::openFile(const QString& filename)
 
 void OctDataManager::loadOctDataThreadFinish()
 {
-	loadFileSignal(false);
+	emit loadFileSignal(false);
 
 	if(loadThread->success())
 	{
@@ -241,12 +241,12 @@ void OctDataManager::loadOctDataThreadFinish()
 				}
 			}
 
-			emit(octFileChanged());
-			emit(octFileChanged(actFilename));
-			emit(octFileChanged(octData   .get()));
-			emit(patientChanged(actPatient));
-			emit(studyChanged  (actStudy  ));
-			emit(seriesChanged (actSeries ));
+			emit octFileChanged();
+			emit octFileChanged(actFilename);
+			emit octFileChanged(octData   .get());
+			emit patientChanged(actPatient);
+			emit studyChanged  (actStudy  );
+			emit seriesChanged (actSeries );
 			OctMarkerManager::getInstance().resetChangedSinceLastSaveState();
 		}
 	}
@@ -269,7 +269,7 @@ void OctDataManager::loadOctDataThreadFinish()
 
 void OctDataManager::chooseSeries(const std::shared_ptr<const OctData::Series>& seriesReq)
 {
-	saveMarkerState(actSeries);
+	emit saveMarkerState(actSeries);
 	
 	
 	if(seriesReq == actSeries)
@@ -281,13 +281,13 @@ void OctDataManager::chooseSeries(const std::shared_ptr<const OctData::Series>& 
 		return;
 
 	actPatient = patient;
-	emit(patientChanged(patient));
+	emit patientChanged(patient);
 
 	actStudy = study;
-	emit(studyChanged(study));
+	emit studyChanged(study);
 
 	actSeries = seriesReq;
-	emit(seriesChanged(seriesReq));
+	emit seriesChanged(seriesReq);
 }
 
 
@@ -324,14 +324,14 @@ bool OctDataManager::loadMarkers(QString filename, OctMarkerFileformat format)
 {
 	markerstree->clear();
 	markerIO->loadMarkers(filename.toStdString(), format);
-	emit(loadMarkerStateAll());
+	emit loadMarkerStateAll();
 	OctMarkerManager::getInstance().resetChangedSinceLastSaveState();
 	return true;
 }
 
 void OctDataManager::saveMarkers(QString filename, OctMarkerFileformat format)
 {
-	saveMarkerState(actSeries);
+	emit saveMarkerState(actSeries);
 	markerIO->saveMarkers(filename.toStdString(), format);
 	OctMarkerManager::getInstance().resetChangedSinceLastSaveState();
 }

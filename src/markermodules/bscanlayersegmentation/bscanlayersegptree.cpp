@@ -114,7 +114,7 @@ void BScanLayerSegPTree::fillPTree(boost::property_tree::ptree& ptree, const BSc
 bool BScanLayerSegPTree::parsePTree(const boost::property_tree::ptree& ptree, BScanLayerSegmentation* markerManager)
 {
 
-	for(const std::pair<const std::string, const bpt::ptree>& bscanPair : ptree)
+	for(const auto& bscanPair : ptree)
 	{
 		if(bscanPair.first != "BScan")
 			continue;
@@ -134,7 +134,7 @@ bool BScanLayerSegPTree::parsePTree(const boost::property_tree::ptree& ptree, BS
 
 		BScanLayerSegmentation::BScanSegData& bscanData = markerManager->lines[bscanId];
 
-		for(const std::pair<const std::string, const bpt::ptree>& segLinesNodePair : *linesNode)
+		for(const auto& segLinesNodePair : *linesNode)
 		{
 			const std::string& name = segLinesNodePair.first;
 

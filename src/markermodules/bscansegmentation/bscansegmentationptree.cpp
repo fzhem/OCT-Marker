@@ -52,7 +52,7 @@ bool BScanSegmentationPtree::parsePTree(const boost::property_tree::ptree& ptree
 		return false;
 
 
-	for(const std::pair<const std::string, const bpt::ptree>& bscanPair : *bscansNode)
+	for(const auto& bscanPair : *bscansNode)
 	{
 		if(bscanPair.first != "BScan")
 			continue;

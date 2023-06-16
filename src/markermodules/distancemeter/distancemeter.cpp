@@ -85,8 +85,8 @@ void DistanceMeter::drawPosition(QPainter& painter, const DistanceMeter::Positio
 
 bool DistanceMeter::leaveWidgetEvent(QEvent*, BScanMarkerWidget*)
 {
-	emit(updatedActualPos(Position()));
-	emit(updateMousePosDistance(Distance()));
+	emit updatedActualPos(Position());
+	emit updateMousePosDistance(Distance());
 	return false;
 }
 
@@ -156,8 +156,8 @@ BscanMarkerBase::RedrawRequest DistanceMeter::mouseMoveEvent(QMouseEvent* event,
 		Position p = calcPosition(lastWidgetPos);
 		Distance d = calcDistance(p);
 
-		updatedActualPos(p);
-		updateMousePosDistance(d);
+		emit updatedActualPos(p);
+		emit updateMousePosDistance(d);
 	}
 
 	return BscanMarkerBase::RedrawRequest();
@@ -168,15 +168,15 @@ BscanMarkerBase::RedrawRequest DistanceMeter::mousePressEvent(QMouseEvent* event
 	if(setStartPos)
 	{
 		startPos = calcPosition(event, widget);
-		emit(updatedStartPos(startPos));
+		emit updatedStartPos(startPos);
 		setNewStartPosition(false);
 	}
 	else
 		clickPos = calcPosition(event, widget);
 
 	Distance d = calcDistance(clickPos);
-	emit(updatedClickPos(clickPos));
-	emit(updateClickDistance(d));
+	emit updatedClickPos(clickPos);
+	emit updateClickDistance(d);
 
 	BscanMarkerBase::RedrawRequest r;
 	r.redraw = true;
@@ -204,8 +204,8 @@ void DistanceMeter::setActBScan(std::size_t bscan)
 			Position p = calcPosition(lastWidgetPos);
 			Distance d = calcDistance(p);
 
-			updatedActualPos(p);
-			updateMousePosDistance(d);
+			emit updatedActualPos(p);
+			emit updateMousePosDistance(d);
 		}
 	}
 }
@@ -217,11 +217,11 @@ void DistanceMeter::resetPositions()
 
 	setNewStartPosition(true);
 
-	updatedStartPos(Position());
-	updatedClickPos(Position());
-	updatedActualPos(Position());
-	updateMousePosDistance(Distance());
-	updateClickDistance(Distance());
+	emit updatedStartPos(Position());
+	emit updatedClickPos(Position());
+	emit updatedActualPos(Position());
+	emit updateMousePosDistance(Distance());
+	emit updateClickDistance(Distance());
 
 }
 

@@ -85,7 +85,7 @@ std::shared_ptr<const OctData::BScan> BscanMarkerBase::getBScan(std::size_t nr) 
 void BscanMarkerBase::activate(bool b)
 {
 	isActivated = b;
-	enabledToolbar(b);
+	emit enabledToolbar(b);
 }
 
 
@@ -176,7 +176,7 @@ void BscanMarkerBase::addUndoCommand(MarkerCommand* command)
 	clearRedo();
 	undoList.push_back(command);
 
-	undoRedoChanged();
+	emit undoRedoChanged();
 }
 
 void BscanMarkerBase::callRedoStep()
@@ -194,7 +194,7 @@ void BscanMarkerBase::callRedoStep()
 	undoList.push_back(command);
 	redoList.pop_back();
 
-	undoRedoChanged();
+	emit undoRedoChanged();
 }
 
 void BscanMarkerBase::callUndoStep()
@@ -212,7 +212,7 @@ void BscanMarkerBase::callUndoStep()
 	redoList.push_back(command);
 	undoList.pop_back();
 
-	undoRedoChanged();
+	emit undoRedoChanged();
 }
 
 void BscanMarkerBase::clearUndoRedo()
@@ -222,7 +222,7 @@ void BscanMarkerBase::clearUndoRedo()
 		delete command;
 	undoList.clear();
 
-	undoRedoChanged();
+	emit undoRedoChanged();
 }
 
 void BscanMarkerBase::clearRedo()
@@ -239,7 +239,7 @@ bool BscanMarkerBase::checkBScan(MarkerCommand* command)
 		return true;
 	if(bscan != static_cast<int>(getActBScanNr()))
 	{
-		requestChangeBscan(bscan);
+		emit requestChangeBscan(bscan);
 		return false;
 	}
 	return true;

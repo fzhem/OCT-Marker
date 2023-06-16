@@ -454,7 +454,7 @@ QDockWidget* StupidSplineWindow::createStupidControls()
 	QDockWidget* dwZoomControl = new QDockWidget(this);
 	dwZoomControl->setWindowTitle("Buttons");
 	dwZoomControl->setWidget(widgetZoomControl);
-	dwZoomControl->setFeatures(0);
+	dwZoomControl->setFeatures({});
 	dwZoomControl->setObjectName("dwZoomControl");
 	dwZoomControl->setTitleBarWidget(new QWidget());
 	dwZoomControl->setFixedHeight(dwZoomControl->minimumSizeHint().height());

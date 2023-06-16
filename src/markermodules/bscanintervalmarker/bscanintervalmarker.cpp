@@ -250,7 +250,7 @@ void BScanIntervalMarker::setMarker(int x1, int x2, const Marker& type, std::siz
 	collection->second.markers[bscan].set(std::make_pair(boost::icl::discrete_interval<int>::closed(x1, x2), type));
 	stateChangedSinceLastSave = true;
 	stateChangedInActBScan    = true;
-	sloViewHasChanged();
+	emit sloViewHasChanged();
 }
 
 
@@ -275,7 +275,7 @@ void BScanIntervalMarker::fillMarker(int x, const Marker& type)
 		map.set(std::make_pair(boost::icl::discrete_interval<int>::closed(intervall.lower(), intervall.upper()), type));
 		stateChangedSinceLastSave = true;
 		stateChangedInActBScan    = true;
-		requestFullUpdate();
+		emit requestFullUpdate();
 // 		sloViewHasChanged(); // handled by requestFullUpdate
 	}
 }
@@ -349,7 +349,7 @@ void BScanIntervalMarker::generateSloMap()
 		tm.createMap(*distMap, actCollection->second.markers, getSeries());
 // 					tm.createMap(*distMap, lines, OctData::Segmentationlines::SegmentlineType::ILM, OctData::Segmentationlines::SegmentlineType::BM, factor, *thicknessmapColor);
 		*sloOverlayImage = tm.getSloMap();
-		requestSloOverlayUpdate();
+		emit requestSloOverlayUpdate();
 
 		std::cout << "Creating slomap took " << timer.elapsed() << " milliseconds" << std::endl;
 	}
@@ -367,7 +367,7 @@ void BScanIntervalMarker::drawMarker(QPainter& painter, BScanMarkerWidget* widge
 	const double scaleFactorX = widget->getImageScaleFactor().getFactorX();
 	
 	const MarkerMap& markerMap = getMarkers();
-	for(const MarkerMap::interval_mapping_type pair : markerMap)
+	for(const auto& pair : markerMap)
 	{
 		IntervalMarker::Marker marker = pair.second;
 		if(marker.isDefined())
@@ -430,7 +430,7 @@ void BScanIntervalMarker::drawBScanSLOLine(QPainter& painter, std::size_t bscanN
 	QPen pen;
 	pen.setWidth(3);
 
-	for(const MarkerMap::interval_mapping_type pair : getMarkers(bscanNr))
+	for(const auto& pair : getMarkers(bscanNr))
 	{
 		IntervalMarker::Marker marker = pair.second;
 		if(marker.isDefined())
@@ -467,7 +467,7 @@ void BScanIntervalMarker::drawBScanSLOCircle(QPainter& painter, std::size_t bsca
 
 	const int rotationFactor = clockwise?-1:1;
 
-	for(const MarkerMap::interval_mapping_type pair : getMarkers(bscanNr))
+	for(const auto& pair : getMarkers(bscanNr))
 	{
 		IntervalMarker::Marker marker = pair.second;
 		if(marker.isDefined())
@@ -572,8 +572,8 @@ bool BScanIntervalMarker::setMarkerCollection(const std::string& internalName)
 	{
 		actCollection = it;
 		autoGenerateSloMap();
-		markerCollectionChanged(internalName);
-		requestFullUpdate();
+		emit markerCollectionChanged(internalName);
+		emit requestFullUpdate();
 		return true;
 	}
 	return false;
@@ -599,7 +599,7 @@ bool BScanIntervalMarker::chooseMarkerID(int id)
 		try
 		{
 			actMarker = markerCollection->getMarkerFromID(id);
-			markerIdChanged(id);
+			emit markerIdChanged(id);
 			return true;
 		}
 		catch(std::out_of_range& e)
@@ -646,7 +646,7 @@ bool BScanIntervalMarker::importMarkerFromBin(const std::string& filename)
 
 	bool result = ImportIntervalMarker::importBin(this, filename);
 	if(result)
-		requestFullUpdate();
+		emit requestFullUpdate();
 
 	return result;
 }

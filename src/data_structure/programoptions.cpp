@@ -142,7 +142,7 @@ void ProgramOptions::readAllOptions()
 	QSettings& settings = getSettings();
 
 	ConfigList& list = getAllOptionsPrivate();
-	for(auto optClass : list.sortedConfig)
+	for(const auto& optClass : list.sortedConfig)
 	{
 		std::vector<Option*> options = optClass.second;
 
@@ -162,7 +162,7 @@ void ProgramOptions::writeAllOptions()
 	QSettings& settings = getSettings();
 
 	ConfigList& list = getAllOptionsPrivate();
-	for(auto optClass : list.sortedConfig)
+	for(const auto& optClass : list.sortedConfig)
 	{
 		std::vector<Option*> options = optClass.second;
 

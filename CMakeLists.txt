@@ -5,7 +5,7 @@ list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake_module/)
 set( CMAKE_CXX_STANDARD 17 )
 
 
-find_package(Boost 1.40 COMPONENTS filesystem serialization system iostreams REQUIRED)
+find_package(Boost 1.40 COMPONENTS serialization system iostreams REQUIRED)
 find_package(OpenCV REQUIRED)
 find_package(LibOctData 1 CONFIG REQUIRED)
 find_package(OctCppFramework REQUIRED)
@@ -17,9 +17,6 @@ option(BUILD_OCTAVE_MEX_FUNCTIONS    "build octave mex functions"    OFF)
 option(BUILD_QT_PROGRAMM             "build main programm"           ON )
 option(BUILD_MEX_WITH_STATIC_CPP_LIB "build mex with static c++ lib" OFF)
 option(CREATE_DOCUMENTATION          "create documentation with doxygen" OFF)
-
-
-set(CMAKE_BUILD_TYPE "Release" CACHE STRING "Choose the type of build, options are: Debug Release RelWithDebInfo MinSizeRel.")
 
 
 IF(CREATE_DOCUMENTATION)
@@ -53,11 +50,7 @@ ENDIF()
 
 if(BUILD_QT_PROGRAMM)
 
-	find_package(Qt5Core)
-	find_package(Qt5Widgets)
-	find_package(Qt5LinguistTools)
-	find_package(Qt5Svg)
-
+	find_package(Qt5 COMPONENTS Core Widgets LinguistTools Svg REQUIRED)
 
 	include(GetGitRevisionDescription)
 	get_git_head_revision(GIT_REFSPEC GIT_SHA1)
@@ -69,14 +62,9 @@ if(BUILD_QT_PROGRAMM)
 
 	set(CMAKE_AUTOMOC ON)
 	set(CMAKE_AUTOUIC ON)
-	set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 
-	include_directories(SYSTEM ${QT_INCLUDES} ${CMAKE_BINARY_DIR})
-	include_directories(SYSTEM ${Boost_INCLUDE_DIR})
 	include_directories(${CMAKE_SOURCE_DIR}/src/)
-	include_directories(SYSTEM ${OpenCV_INCLUDE_DIRS})
-
 
 	if(CMAKE_COMPILER_IS_GNUCXX)
 		string(APPEND CMAKE_CXX_FLAGS " -Wall -Wextra -Wunreachable-code -Wconversion -Wold-style-cast")        ## Optimize -O3 -Weverything -Weffc++
@@ -84,7 +72,6 @@ if(BUILD_QT_PROGRAMM)
 			set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS} -mwindows")
 		endif()
 	endif()
-
 
 
 	if(BUILD_WITH_SEGMENTATION_ML)
@@ -114,16 +101,18 @@ if(BUILD_QT_PROGRAMM)
 	QT5_ADD_TRANSLATION(TRANSLATIONS ${LANG})
 
 
-	add_executable(octmarker src/main.cpp src/prepareprogrammoptions.cpp ${octmarker_SRCS}
+	add_executable(octmarker WIN32 src/main.cpp src/prepareprogrammoptions.cpp ${octmarker_SRCS}
 		${TRANSLATIONS}
 		${octmarker_RESOURCES_RCC} octmarker.rc)
 
-	if(WIN32 AND MSVC)
-		# suppress dos window
-		set_target_properties(octmarker PROPERTIES LINK_FLAGS_RELEASE "/subsystem:windows /ENTRY:mainCRTStartup")
+
+	if(CMAKE_BUILD_TYPE STREQUAL "Release")
+		set_property(TARGET main PROPERTY WIN32_EXECUTABLE true)
 	endif()
 
-	target_link_libraries(octmarker Qt5::Core Qt5::Widgets ${CMAKE_THREAD_LIBS_INIT} ${Boost_LIBRARIES} ${OpenCV_LIBS})
+	target_link_libraries(octmarker Qt5::Core Qt5::Widgets ${CMAKE_THREAD_LIBS_INIT})
+	target_link_libraries(octmarker opencv_core)
+	target_link_libraries(octmarker Boost::serialization Boost::system Boost::iostreams)
 	target_link_libraries(octmarker LibOctData::octdata)
 	target_link_libraries(octmarker OctCppFramework::oct_cpp_framework)
 	target_link_libraries(octmarker ${FANN_LIBRARY})

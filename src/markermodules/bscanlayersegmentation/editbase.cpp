@@ -33,7 +33,7 @@ int EditBase::getBScanWidth() const
 
 void EditBase::requestFullUpdate()
 {
-	parent->requestFullUpdate();
+	emit parent->requestFullUpdate();
 }
 
 void EditBase::rangeModified(std::size_t ascanBegin, std::size_t ascanEnd)

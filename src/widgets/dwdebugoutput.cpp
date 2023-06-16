@@ -101,7 +101,7 @@ void DWDebugOutput::printMessages(QtMsgType type, const QMessageLogContext& /*co
 	if(isGuiThread)
 		debugMessages->append(messages);
 	else
-		emit(messageFromOtherThread(messages));
+		emit messageFromOtherThread(messages);
 }
 
 
@@ -114,7 +114,7 @@ void DWDebugOutput::printMessage(QString msg)
 	if(isGuiThread)
 		debugMessages->append(messages);
 	else
-		emit(messageFromOtherThread(messages));
+		emit messageFromOtherThread(messages);
 }
 
 void DWDebugOutput::printMessageLocalThread(QString msg)

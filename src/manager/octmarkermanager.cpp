@@ -118,8 +118,8 @@ void OctMarkerManager::chooseBScan(int bscan)
 		marker->setActBScan(actBScan);
 
 
-	emit(newBScanShowed(series->getBScan(actBScan)));
-	emit(bscanChanged(actBScan));
+	emit newBScanShowed(series->getBScan(actBScan));
+	emit bscanChanged(actBScan);
 }
 
 
@@ -157,8 +157,8 @@ void OctMarkerManager::showSeries(const std::shared_ptr<const OctData::Series>& 
 		extraSeriesData->loadExtraData(*s, *markerTree);
 
 
-// 	emit(newBScanShowed(series->getBScan(actBScan)));
-	emit(newSeriesShowed(s));
+// 	emit newBScanShowed(series->getBScan(actBScan));
+	emit newSeriesShowed(s);
 	actBScan = -1;
 	chooseBScan(0);
 }
@@ -202,9 +202,9 @@ void OctMarkerManager::setBscanMarker(int id)
 		}
 		
 		actBscanMarker = newMarker;
-		emit(bscanChanged(actBScan));
-		emit(bscanMarkerChanged(actBscanMarker));
-		emit(undoRedoStateChange());
+		emit bscanChanged(actBScan);
+		emit bscanMarkerChanged(actBscanMarker);
+		emit undoRedoStateChange();
 		ProgramOptions::bscanMarkerToolId.setValue(actBscanMarkerId);
 	}
 }
@@ -227,7 +227,7 @@ void OctMarkerManager::setSloMarker(int id)
 			newMarker->activate(true);
 
 		actSloMarker = newMarker;
-		emit(sloMarkerChanged(actSloMarker));
+		emit sloMarkerChanged(actSloMarker);
 		ProgramOptions::sloMarkerToolId.setValue(actSloMarkerId);
 	}
 }
@@ -294,7 +294,7 @@ void OctMarkerManager::udateFromMarkerModul()
 	 QObject* obj = sender();
 	 if(obj == actBscanMarker)
 	 {
-		 emit(bscanChanged(actBScan));
+		 emit bscanChanged(actBScan);
 	 }
 }
 
@@ -303,7 +303,7 @@ void OctMarkerManager::updateUndoRedowState()
 	 QObject* obj = sender();
 	 if(obj == actBscanMarker)
 	 {
-		 emit(undoRedoStateChange());
+		 emit undoRedoStateChange();
 	 }
 }
 
@@ -329,12 +329,12 @@ bool OctMarkerManager::hasActMarkerChanged() const
 
 void OctMarkerManager::handleSloRedrawAfterMarkerChange()
 {
-	emit(sloViewChanged());
+	emit sloViewChanged();
 }
 
 void OctMarkerManager::sloOverlayUpdateFromMarkerModul()
 {
-	emit(sloOverlayChanged());
+	emit sloOverlayChanged();
 }
 
 
