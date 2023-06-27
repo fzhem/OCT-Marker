@@ -465,6 +465,9 @@ namespace
 		{
 			const OctData::Series::BScanSLOCoordList& convexHull = series.getConvexHull();
 			const OctData::SloImage& sloImage = series.getSloImage();
+			
+			if(!sloImage.hasImage())
+				return;
 
 			cv::Mat sloImageMat = sloImage.getImage();
 			if(sloImageMat.empty())
@@ -565,29 +568,26 @@ SloBScanDistanceMap::SloBScanDistanceMap()
 }
 
 
-SloBScanDistanceMap::~SloBScanDistanceMap()
-{
-	delete preCalcDataMatrix;
-}
+SloBScanDistanceMap::~SloBScanDistanceMap() = default;
 
 
 void SloBScanDistanceMap::createData(const OctData::Series* series)
 {
 	if(!series)
 		return;
+	
+	const auto& sloImg = series->getSloImage();
+	if(!sloImg.hasImage())
+		return;
 
-	const cv::Mat& sloImageMat = series->getSloImage().getImage();
+	const cv::Mat& sloImageMat = sloImg.getImage();
 	if(sloImageMat.empty())
 		return;
 
 
-	PreCalcDataMatrix* oldPreCalcDataMatrix = preCalcDataMatrix;
+	preCalcDataMatrix = std::make_unique<PreCalcDataMatrix>(static_cast<std::size_t>(sloImageMat.cols)
+	                                                      , static_cast<std::size_t>(sloImageMat.rows));
 
-	preCalcDataMatrix = new PreCalcDataMatrix(static_cast<std::size_t>(sloImageMat.cols)
-	                                        , static_cast<std::size_t>(sloImageMat.rows));
-
-	if(oldPreCalcDataMatrix)
-		delete oldPreCalcDataMatrix;
 
 	FillPreCalcData fpcd(*preCalcDataMatrix, *series);
 }

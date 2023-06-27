@@ -22,6 +22,7 @@
 #include<data_structure/matrx.h>
 #include<limits>
 #include<vector>
+#include<memory>
 
 #include "point2d.h"
 
@@ -60,10 +61,10 @@ public:
 	void createData(const OctData::Series* series);
 
 
-	const PreCalcDataMatrix* getDataMatrix() const { return preCalcDataMatrix; }
+	const PreCalcDataMatrix* getDataMatrix() const { return preCalcDataMatrix.get(); }
 
 private:
-	PreCalcDataMatrix* preCalcDataMatrix = nullptr;
+	std::unique_ptr<PreCalcDataMatrix> preCalcDataMatrix = nullptr;
 
 };
 

@@ -107,7 +107,7 @@ if(BUILD_QT_PROGRAMM)
 
 
 	if(CMAKE_BUILD_TYPE STREQUAL "Release")
-		set_property(TARGET main PROPERTY WIN32_EXECUTABLE true)
+		set_property(TARGET octmarker PROPERTY WIN32_EXECUTABLE true)
 	endif()
 
 	target_link_libraries(octmarker Qt5::Core Qt5::Widgets ${CMAKE_THREAD_LIBS_INIT})
