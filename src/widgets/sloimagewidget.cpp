@@ -590,7 +590,7 @@ int SLOImageWidget::getBScanNearPos(int x, int y, double tol)
 
 void SLOImageWidget::mousePressEvent(QMouseEvent* e)
 {
-	int bscan = getBScanNearPos(e->x(), e->y(), 5);
+	int bscan = getBScanNearPos(e->position().x(), e->position().y(), 5);
 	if(bscan >= 0)
 	{
 		e->accept();
