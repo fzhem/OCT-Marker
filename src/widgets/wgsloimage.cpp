@@ -20,6 +20,7 @@
 
 #include "slowithlegendwidget.h"
 
+#include <QActionGroup>
 #include <QResizeEvent>
 #include <QToolBar>
 #include <QAction>
