@@ -65,7 +65,6 @@ void loadQtTranslator(QTranslator& translator, const QString& programDir)
 
 int main(int argc, char **argv)
 {
-// 	QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
 	QApplication app(argc, argv);
 	QCoreApplication::setApplicationName("OCT-Marker");
@@ -134,8 +133,6 @@ int main(int argc, char **argv)
 	qDebug("Compiler Id     : %s", BuildConstants::compilerId);
 	qDebug("Compiler Version: %s", BuildConstants::compilerVersion);
 
-
-	QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
 	PrepareProgrammOptions::prepareProgrammOptions();
 
