@@ -53,7 +53,7 @@ AboutDialog::AboutDialog()
 
 	text += "<br/><br/><b>Build-Informationen</b><table>";
 	text += QString("<tr><td>Qt-Version </td><td> %1</td></tr>").arg(qVersion());
-	if(gitTimeOk) text += QString("<tr><td>Git-Commit-Zeit </td><td> %1</td></tr>").arg(gitTime.toString(Qt::SystemLocaleLongDate));
+	if(gitTimeOk) text += QString("<tr><td>Git-Commit-Zeit </td><td> %1</td></tr>").arg(QLocale::system().toString(gitTime, QLocale::LongFormat));
 	text += QString("<tr><td>Git-Hash   </td><td> %1</td></tr>").arg(BuildConstants::gitSha1);
 	text += QString("<tr><td>Build-Typ  </td><td> %1</td></tr>").arg(BuildConstants::buildTyp);
 	text += QString("<tr><td>Compiler   </td><td> %1 %2</td></tr>").arg(BuildConstants::compilerId).arg(BuildConstants::compilerVersion);
