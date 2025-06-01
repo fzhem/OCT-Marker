@@ -19,6 +19,7 @@
 #include "octmarkeractions.h"
 
 #include<QAction>
+#include<QActionGroup>
 #include<QMenu>
 #include<QPainter>
 
