@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.1.0 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.15 FATAL_ERROR)
 project(octmarker DESCRIPTION "A platform independent open source tool for open OCT images and create different labels on it")
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake_module/)
 
@@ -50,7 +50,7 @@ ENDIF()
 
 if(BUILD_QT_PROGRAMM)
 
-	find_package(Qt5 COMPONENTS Core Widgets LinguistTools Svg REQUIRED)
+	find_package(Qt6 COMPONENTS Core Widgets LinguistTools Svg REQUIRED)
 
 	include(GetGitRevisionDescription)
 	get_git_head_revision(GIT_REFSPEC GIT_SHA1)
@@ -97,8 +97,8 @@ if(BUILD_QT_PROGRAMM)
 	set(octmarker_RESOURCES application.qrc)
 
 
-	QT5_ADD_RESOURCES(octmarker_RESOURCES_RCC ${octmarker_RESOURCES})
-	QT5_ADD_TRANSLATION(TRANSLATIONS ${LANG})
+	QT6_ADD_RESOURCES(octmarker_RESOURCES_RCC ${octmarker_RESOURCES})
+	QT6_ADD_TRANSLATION(TRANSLATIONS ${LANG})
 
 
 	add_executable(octmarker WIN32 src/main.cpp src/prepareprogrammoptions.cpp ${octmarker_SRCS}
@@ -110,7 +110,7 @@ if(BUILD_QT_PROGRAMM)
 		set_property(TARGET octmarker PROPERTY WIN32_EXECUTABLE true)
 	endif()
 
-	target_link_libraries(octmarker Qt5::Core Qt5::Widgets ${CMAKE_THREAD_LIBS_INIT})
+	target_link_libraries(octmarker Qt6::Core Qt6::Widgets ${CMAKE_THREAD_LIBS_INIT})
 	target_link_libraries(octmarker opencv_core)
 	target_link_libraries(octmarker Boost::serialization Boost::system Boost::iostreams)
 	target_link_libraries(octmarker LibOctData::octdata)
