@@ -146,7 +146,7 @@ void WgSloImage::createMarkerToolbar()
 		toolBar->addAction(markerAction);
 		++id;
 	}
-	connect(signalMapperMarker, static_cast<void(QSignalMapper::*)(int)>(&QSignalMapper::mapped), &markerManager, &OctMarkerManager::setSloMarker);
+	connect(signalMapperMarker, &QSignalMapper::mappedInt, &markerManager, &OctMarkerManager::setSloMarker);
 
 	addToolBar(toolBar);
 }
