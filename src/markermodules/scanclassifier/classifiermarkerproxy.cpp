@@ -17,6 +17,7 @@
  */
 
 #include "classifiermarkerproxy.h"
+#include <QActionGroup>
 
 #include<helper/actionclasses.h>
 
