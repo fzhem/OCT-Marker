@@ -423,7 +423,7 @@ void BScanMarkerWidget::wheelEvent(QWheelEvent* wheelE)
 		else
 			emit bscanChangeInkrement(+1);
 
-		emit mousePosOnBScan(static_cast<double>(wheelE->x())/scaledImageWidth());
+		emit mousePosOnBScan(static_cast<double>(wheelE->position().x())/scaledImageWidth());
 	}
 
 	wheelE->accept();
@@ -447,9 +447,9 @@ void BScanMarkerWidget::mouseMoveEvent(QMouseEvent* event)
 
 
 	int xImg, yImg;
-	transformCoordWidget2Img(event->x(), event->y(), xImg, yImg);
+	transformCoordWidget2Img(event->position().x(), event->position().y(), xImg, yImg);
 	emit mousePosInImage(xImg, yImg);
-	emit mousePosOnBScan(static_cast<double>(event->x())/scaledImageWidth());
+	emit mousePosOnBScan(static_cast<double>(event->position().x())/scaledImageWidth());
 
 // 	if(checkControlUsed(event))
 // 		return;
